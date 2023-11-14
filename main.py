@@ -27,6 +27,10 @@ def add_note_to_db(note):
     db.close()
 
 def display_notes():
+    for widget in root.winfo_children():
+        if isinstance(widget, tk.Label):
+            widget.destroy()
+
     db = sqlite3.connect('notes.db')
     cursor = db.cursor()
 
@@ -37,6 +41,18 @@ def display_notes():
         note_label = tk.Label(root, text=note[2])  # Note content is at index 2
         note_label.pack()
 
+    db.close()
+    root.after(1000,display_notes)
+
+def clear_notes():
+    db=sqlite3.connect('notes.db')
+    cursor = db.cursor()
+
+    cursor.execute('DELETE FROM notes')
+
+    db.commit()
+    db.close()
+
 
 def add_note():
     def save_note():
@@ -44,6 +60,8 @@ def add_note():
         add_note_to_db(note_text)
         add_note.destroy()
 
+    # Update the displayed notes after adding a new note
+    display_notes()
     
     add_note = tk.Toplevel(root)
     add_note.title("addnote")
@@ -85,5 +103,9 @@ add_button = Button(settings_frame,
                     command=add_note)
 add_button.pack(pady=10, padx=10)
 
-display_notes
+clear_button = Button(settings_frame,
+                      text="",
+                      command=clear_notes)
+clear_button.pack()
+display_notes()
 root.mainloop()
