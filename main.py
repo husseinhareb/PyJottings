@@ -37,9 +37,13 @@ def display_notes():
     cursor.execute('SELECT * FROM notes')
     notes = cursor.fetchall()
 
-    for index, note in enumerate(notes, start=1):
-        note_label = tk.Label(root, text=f"{index}. {note[2]}")  # Note content is at index 2
-        note_label.pack()
+    notes_frame = LabelFrame(root, text="Notes", width=80, height=640)
+    notes_frame.pack(pady=10, padx=10)
+    notes_frame.place(x=100, y=10)
+
+    for idx, note in enumerate(notes, start=1):
+        note_label = tk.Label(notes_frame, text=f"{idx}. {note[2]}", wraplength=250, justify="left")
+        note_label.pack(pady=5, padx=10)
 
     db.close()
 
