@@ -23,27 +23,49 @@ def add_note_to_db(note):
 
     cursor.execute('INSERT INTO notes (title, content) VALUES (?, ?)', ('Untitled', note))
     
-    cursor.commit()
+    db.commit()
     db.close()
+
+def display_notes():
+    db = sqlite3.connect('notes.db')
+    cursor = db.cursor()
+
+    cursor.execute('SELECT * FROM notes')
+    notes = cursor.fetchall()
+
+    for note in notes:
+        note_label = tk.Label(root, text=note[2])  # Note content is at index 2
+        note_label.pack()
 
 
 def add_note():
+    def save_note():
+        note_text = note_var.get()
+        add_note_to_db(note_text)
+        add_note.destroy()
+
+    
     add_note = tk.Toplevel(root)
     add_note.title("addnote")
     add_note.geometry('200x200')
-    note = tk.StringVar()
-
+    note_var = tk.StringVar()
     # Create the Entry widget using tk.Entry
-    note_entry = tk.Entry(add_note, textvariable=note)
+    note_entry = tk.Entry(add_note, 
+                          textvariable=note_var)
     note_entry.pack(padx = 10,pady=10)
+
     note_accept = tk.Button(add_note,
-                    text="",
-                    )
+                            text="",
+                            command=save_note
+                            )
     note_accept.pack()
     note_cancel = tk.Button(add_note,
-                   text="",
-                    )
+                            text="",
+                            command=add_note.destroy
+                            )
     note_cancel.pack()
+
+create_database()
 
 root = Window(themename="superhero")
 root.title("PyJottings")
@@ -63,4 +85,5 @@ add_button = Button(settings_frame,
                     command=add_note)
 add_button.pack(pady=10, padx=10)
 
+display_notes
 root.mainloop()
