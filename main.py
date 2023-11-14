@@ -37,12 +37,13 @@ def display_notes():
     cursor.execute('SELECT * FROM notes')
     notes = cursor.fetchall()
 
-    for note in notes:
-        note_label = tk.Label(root, text=note[2])  # Note content is at index 2
+    for index, note in enumerate(notes, start=1):
+        note_label = tk.Label(root, text=f"{index}. {note[2]}")  # Note content is at index 2
         note_label.pack()
 
     db.close()
-    root.after(1000,display_notes)
+
+    root.after(1000, display_notes)
 
 def clear_notes():
     db=sqlite3.connect('notes.db')
@@ -60,14 +61,14 @@ def add_note():
         add_note_to_db(note_text)
         add_note.destroy()
 
-    # Update the displayed notes after adding a new note
     display_notes()
     
     add_note = tk.Toplevel(root)
     add_note.title("addnote")
     add_note.geometry('200x200')
     note_var = tk.StringVar()
-    # Create the Entry widget using tk.Entry
+
+
     note_entry = tk.Entry(add_note, 
                           textvariable=note_var)
     note_entry.pack(padx = 10,pady=10)
@@ -103,9 +104,30 @@ add_button = Button(settings_frame,
                     command=add_note)
 add_button.pack(pady=10, padx=10)
 
+delete_button = Button(settings_frame,
+                      text="󰗨",
+                      command=clear_notes)
+delete_button.pack(pady=10, padx=10)
+
+edit_button = Button(settings_frame,
+                     text="󰤌")
+edit_button.pack(pady=10, padx=10)
+
+reminder_button = Button(settings_frame,
+                     text="󰀠")
+reminder_button.pack(pady=10, padx=10)
+
+
 clear_button = Button(settings_frame,
                       text="",
                       command=clear_notes)
-clear_button.pack()
+clear_button.pack(pady=10, padx=10)
+
+
+exit_button = Button(settings_frame,
+                  text="󰍃",
+                  command=root.destroy)
+
+exit_button.pack(pady=10, padx=10)
 display_notes()
 root.mainloop()
