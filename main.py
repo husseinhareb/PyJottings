@@ -17,6 +17,15 @@ def create_database():
     db.commit()
     db.close()
 
+def add_note_to_db(note):
+    db = sqlite3.connect('notes.db')
+    cursor = db.cursor()
+
+    cursor.execute('INSERT INTO notes (title, content) VALUES (?, ?)', ('Untitled', note))
+    
+    cursor.commit()
+    db.close()
+
 
 def add_note():
     add_note = tk.Toplevel(root)
