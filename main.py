@@ -1,5 +1,22 @@
 import tkinter as tk
+import sqlite3
 from ttkbootstrap import Style, Button, LabelFrame, Window
+
+
+def create_database():
+    db = sqlite3.connect('notes.db')
+    cursor =db.cursor()
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS notes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            content TEXT NOT NULL
+        )
+    ''')
+    db.commit()
+    db.close()
+
 
 def add_note():
     add_note = tk.Toplevel(root)
