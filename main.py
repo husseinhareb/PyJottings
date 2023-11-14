@@ -69,24 +69,25 @@ def add_note():
     
     add_note = tk.Toplevel(root)
     add_note.title("addnote")
-    add_note.geometry('200x200')
+    add_note.geometry('250x100')
     note_var = tk.StringVar()
 
+    note_label = tk.Label(add_note,
+                          text="Enter your note:")
+    note_label.pack()
+    note_entry = tk.Entry(add_note,
+                          textvariable=note_var,
+                          width=30)
+    note_entry.pack(pady=5)
 
-    note_entry = tk.Entry(add_note, 
-                          textvariable=note_var)
-    note_entry.pack(padx = 10,pady=10)
+    button_frame = tk.Frame(add_note)
+    button_frame.pack(pady=5)
 
-    note_accept = tk.Button(add_note,
-                            text="",
-                            command=save_note
-                            )
-    note_accept.pack()
-    note_cancel = tk.Button(add_note,
-                            text="",
-                            command=add_note.destroy
-                            )
-    note_cancel.pack()
+    note_accept = tk.Button(button_frame, text="", command=save_note)
+    note_accept.pack(side=tk.LEFT)
+
+    note_cancel = tk.Button(button_frame, text="", command=add_note.destroy)
+    note_cancel.pack(side=tk.LEFT)
 
 create_database()
 
