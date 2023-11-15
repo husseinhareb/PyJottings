@@ -1,7 +1,7 @@
 import tkinter as tk
 import sqlite3
 from ttkbootstrap import *
-
+import ttkbootstrap as tb
 #Database Creation
 def create_database():
     db = sqlite3.connect('notes.db')
@@ -31,16 +31,29 @@ def display_notes(note_container):
     for widget in note_container.winfo_children():
         widget.destroy()
 
+    # Create the scrollbar
+    scroll = Scrollbar(note_container, orient='vertical')
+    scroll.pack(side="right", fill="y")
+
+    # Create a canvas for the note_container
+    canvas = tk.Canvas(note_container, yscrollcommand=scroll.set)
+    canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+    # Connect the scrollbar to the canvas
+    scroll.config(command=canvas.yview)
+
+    # Create a frame inside the canvas to hold the notes
+    notes_frame = tk.Frame(canvas)
+    canvas.create_window((0, 0), window=notes_frame, anchor=tk.NW)
+
     db = sqlite3.connect('notes.db')
     cursor = db.cursor()
 
     cursor.execute('SELECT * FROM notes')
     notes = cursor.fetchall()
-
     for index, note in enumerate(notes, start=1):
-        note_frame = tk.Frame(note_container, relief=tk.RIDGE, borderwidth=2)
+        note_frame = tk.Frame(notes_frame, relief=tk.RIDGE, borderwidth=2)
         note_frame.pack(pady=10, padx=10)
-
         note_text = tk.Text(note_frame, wrap=tk.WORD, height=4, width=30)
         note_text.insert(tk.END, f"{index}. {note[2]}")
         note_text.config(state=tk.DISABLED)
@@ -56,7 +69,6 @@ def display_notes(note_container):
         edit_button.pack(side=tk.RIGHT, padx=5)
 
     db.close()
-
 
 #Function to delete all notes(Deletes everything in the database)
 def clear_notes():
@@ -164,6 +176,7 @@ exit_button.pack(pady=10, padx=10)
 # Create a container frame for notes
 notes_container = tk.Frame(root)
 notes_container.pack(side=tk.RIGHT, fill=tk.Y, padx=10, pady=10)
+
 
 display_notes(notes_container)
 
