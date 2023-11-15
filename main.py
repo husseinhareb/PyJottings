@@ -1,6 +1,6 @@
 import tkinter as tk
 import sqlite3
-from ttkbootstrap import Style, Button, LabelFrame, Window
+from ttkbootstrap import *
 
 #Database Creation
 def create_database():
@@ -105,6 +105,7 @@ def edit_note(note_id, current_content):
     edit_cancel = tk.Button(edit_button_frame, text="Cancel", command=edit_note_window.destroy)
     edit_cancel.pack(side=tk.LEFT)
 
+#Function for adding notes
 def add_note():
     def save_note():
         note_text = note_var.get()
@@ -131,13 +132,15 @@ def add_note():
     note_cancel = tk.Button(note_button_frame, text="Cancel", command=add_note_window.destroy)
     note_cancel.pack(side=tk.LEFT)
 
+
 create_database()
 
-root = Window(themename="superhero")
+
+
+root = Window(themename="morph")
 root.title("PyJottings")
 root.geometry('360x660+40+40')
 
-style = Style('superhero')
 settings_frame = LabelFrame(root, text="Settings", width=80, height=640)
 settings_frame.pack(pady=10, padx=10)
 settings_frame.place(x=5, y=10)
