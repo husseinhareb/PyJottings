@@ -62,10 +62,10 @@ def display_notes(note_container):
         button_frame = tk.Frame(note_frame)
         button_frame.pack(pady=5)
 
-        delete_button = tk.Button(button_frame, text="Delete", command=lambda i=note[0]: delete_note(i))
+        delete_button = tk.Button(button_frame, text="󰆴", command=lambda i=note[0]: delete_note(i),font=("Jetbrains Nerd Font",8))
         delete_button.pack(side=tk.LEFT, padx=5)
 
-        edit_button = tk.Button(button_frame, text="Edit", command=lambda i=note[0], c=note[2]: edit_note(i, c))
+        edit_button = tk.Button(button_frame, text="󰘙", command=lambda i=note[0], c=note[2]: edit_note(i, c),font=("Jetbrains Nerd Font",8))
         edit_button.pack(side=tk.RIGHT, padx=5)
 
     # Update the window of the canvas after adding all note frames
@@ -126,11 +126,11 @@ def edit_note(note_id, current_content):
     edit_button_frame = tk.Frame(edit_note_window)
     edit_button_frame.pack(pady=5)
 
-    edit_accept = tk.Button(edit_button_frame, text="Save", command=save_edit)
-    edit_accept.pack(side=tk.LEFT)
+    edit_accept = tk.Button(edit_button_frame, text="", command=save_edit,font=("Jetbrains Nerd Font",8))
+    edit_accept.pack(side=tk.LEFT,padx=2)
 
-    edit_cancel = tk.Button(edit_button_frame, text="Cancel", command=edit_note_window.destroy)
-    edit_cancel.pack(side=tk.LEFT)
+    edit_cancel = tk.Button(edit_button_frame, text="󰜺", command=edit_note_window.destroy,font=("Jetbrains Nerd Font",8))
+    edit_cancel.pack(side=tk.LEFT,padx=2)
 
 #Function for adding notes
 def add_note():
@@ -153,18 +153,18 @@ def add_note():
     note_button_frame = tk.Frame(add_note_window)
     note_button_frame.pack(pady=5)
 
-    note_accept = tk.Button(note_button_frame, text="Save", command=save_note)
-    note_accept.pack(side=tk.LEFT)
+    note_accept = tk.Button(note_button_frame, text="", command=save_note,font=("Jetbrains Nerd Font",8))
+    note_accept.pack(side=tk.LEFT,padx=2)
 
-    note_cancel = tk.Button(note_button_frame, text="Cancel", command=add_note_window.destroy)
-    note_cancel.pack(side=tk.LEFT)
+    note_cancel = tk.Button(note_button_frame, text="󰜺", command=add_note_window.destroy,font=("Jetbrains Nerd Font",8))
+    note_cancel.pack(side=tk.LEFT,padx=2)
 
 
 create_database()
 
 
 
-root = Window(themename="darkly")
+root = Window(themename="superhero")
 root.title("PyJottings")
 root.geometry('360x660+40+40')
 
