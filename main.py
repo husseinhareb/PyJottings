@@ -37,20 +37,26 @@ def display_notes(note_container):
     cursor.execute('SELECT * FROM notes')
     notes = cursor.fetchall()
 
-    for idx, note in enumerate(notes, start=1):
+    for index, note in enumerate(notes, start=1):
         note_frame = tk.Frame(note_container, relief=tk.RIDGE, borderwidth=2)
-        note_frame.pack(pady=5, padx=10, fill=tk.X)
+        note_frame.pack(pady=10, padx=10)
 
-        note_label = tk.Label(note_frame, text=f"{idx}. {note[2]}", wraplength=220, justify="left")
-        note_label.pack(pady=5, padx=10)
+        note_text = tk.Text(note_frame, wrap=tk.WORD, height=4, width=30)
+        note_text.insert(tk.END, f"{index}. {note[2]}")
+        note_text.config(state=tk.DISABLED)
+        note_text.pack(pady=5, padx=10)
 
-        delete_button = tk.Button(note_frame, text="Delete", command=lambda i=note[0]: delete_note(i))
+        button_frame = tk.Frame(note_frame)
+        button_frame.pack(pady=5)
+
+        delete_button = tk.Button(button_frame, text="Delete", command=lambda i=note[0]: delete_note(i))
         delete_button.pack(side=tk.LEFT, padx=5)
 
-        edit_button = tk.Button(note_frame, text="Edit", command=lambda i=note[0], c=note[2]: edit_note(i, c))
-        edit_button.pack(side=tk.LEFT, padx=5)
+        edit_button = tk.Button(button_frame, text="Edit", command=lambda i=note[0], c=note[2]: edit_note(i, c))
+        edit_button.pack(side=tk.RIGHT, padx=5)
 
     db.close()
+
 
 #Function to delete all notes(Deletes everything in the database)
 def clear_notes():
@@ -137,7 +143,7 @@ create_database()
 
 
 
-root = Window(themename="morph")
+root = Window(themename="darkly")
 root.title("PyJottings")
 root.geometry('360x660+40+40')
 
