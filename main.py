@@ -2,7 +2,7 @@ import tkinter as tk
 import sqlite3
 from ttkbootstrap import Style, Button, LabelFrame, Window
 
-
+#Database Creation
 def create_database():
     db = sqlite3.connect('notes.db')
     cursor = db.cursor()
@@ -16,7 +16,7 @@ def create_database():
     ''')
     db.commit()
     db.close()
-
+#Function for adding notes trigger
 def add_note_to_db(note):
     db = sqlite3.connect('notes.db')
     cursor = db.cursor()
@@ -26,6 +26,7 @@ def add_note_to_db(note):
     db.commit()
     db.close()
 
+#Function for displaying notes from the database
 def display_notes(note_container):
     for widget in note_container.winfo_children():
         widget.destroy()
@@ -51,8 +52,7 @@ def display_notes(note_container):
 
     db.close()
 
-    root.after(1000, lambda: display_notes(note_container))
-
+#Function to delete all notes(Deletes everything in the database)
 def clear_notes():
     db = sqlite3.connect('notes.db')
     cursor = db.cursor()
@@ -61,6 +61,7 @@ def clear_notes():
 
     db.commit()
     db.close()
+    display_notes(notes_container)  
 
 def delete_note(note_id):
     db = sqlite3.connect('notes.db')
@@ -70,7 +71,8 @@ def delete_note(note_id):
 
     db.commit()
     db.close()
-
+    display_notes(notes_container)  
+#Function for editing previous notes
 def edit_note(note_id, current_content):
     def save_edit():
         new_content = edit_var.get()
